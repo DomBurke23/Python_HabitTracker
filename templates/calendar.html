@@ -27,11 +27,11 @@
                 <td class="habit-cell">
                     {% if day <= today %}
                         {% set date_str = day.strftime('%Y-%m-%d') %}
-                        {# DEBUGGING OUTPUT #}
+                        <!-- {# DEBUGGING OUTPUT #}
                         <p>Habit: {{ habit }}</p>
-                        <!-- <p>Tracking Data: {{ habit_tracking.get(habit) }}</p> -->
-                        <!-- <p>Status for {{ date_str }}: {{ habit_tracking.get(habit, {}).get(date_str) }}</p> -->
-                        {# END DEBUGGING OUTPUT #}
+                        <p>Tracking Data: {{ habit_tracking.get(habit) }}</p>
+                        <p>Status for {{ date_str }}: {{ habit_tracking.get(habit, {}).get(date_str) }}</p>
+                        {# END DEBUGGING OUTPUT #} -->
                         <form method="POST">
                             <input type="hidden" name="habit_name" value="{{ habit }}">
                             <input type="hidden" name="date" value="{{ date_str }}">
@@ -43,8 +43,10 @@
                             </button>
                         </form>
                     {% else %}
+                    <div>
                         <span class="future-day">&#10004;</span>
                         <span class="future-day">&#10008;</span>
+                    </div>
                     {% endif %}
                 </td>
                 {% endfor %}
