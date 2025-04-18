@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Daily Habits{% endblock %}
+
+{% block content %}
+    <h1>Your Daily Habits</h1>
+
+    <h2>Add a New Habit</h2>
+    <form method="POST">
+        <label for="habit">Habit:</label><br>
+        <input type="text" id="habit" name="habit" required><br><br>
+        <input type="submit" value="Add Habit">
+    </form>
+    <hr>
+
+    {% if habits %}
+        <h2>Your Current Habits</h2>
+        <ul>
+            {% for habit in habits %}
+                <li>{{ habit }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No habits added yet.</p>
+    {% endif %}
+{% endblock %}
