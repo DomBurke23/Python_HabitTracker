@@ -8,4 +8,10 @@ Requirements:
 in this python file i want a page which asks the user to input daily habits.
 then show them habits on the page. 
 
-2) 
+2) add a page called calendar, which lists the habits against the days of the month , 
+so we can tick green or cross with a red x if not done , 
+include todays date on the page, 
+do not allow the user to click the cells for future days of the month.  
+
+Issues faced here:
+1) when adding a 2nd habit, the 2nd habit would appear in cell 1 under habit 1 so that we could not see any data(tick/cross icons) in habit 2 column. 

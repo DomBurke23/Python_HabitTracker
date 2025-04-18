@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Habit Calendar{% endblock %}
+
+{% block content %}
+
+    <h1>{{ month_name }} {{ today.year }} - Habit Tracking</h1>
+    <p>Today's Date: {{ today.strftime('%Y-%m-%d') }}</p>
+
+    <table class="calendar-table">
+        <!-- column names -->
+        <thead>
+            <tr>
+                <th>Date</th>
+                {% for habit in habits %}
+                    <th>{{ habit }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for day in days_in_month %}
+            <tr>
+                <!-- <td>row 1</td> -->
+                <td>{{ day.strftime('%Y-%m-%d') }}</td>
+                {% for habit in habits %}
+                <td class="habit-cell">
+                    {% if day <= today %}
+                        {% set date_str = day.strftime('%Y-%m-%d') %}
+                        {# DEBUGGING OUTPUT #}
+                        <p>Habit: {{ habit }}</p>
+                        <!-- <p>Tracking Data: {{ habit_tracking.get(habit) }}</p> -->
+                        <!-- <p>Status for {{ date_str }}: {{ habit_tracking.get(habit, {}).get(date_str) }}</p> -->
+                        {# END DEBUGGING OUTPUT #}
+                        <form method="POST">
+                            <input type="hidden" name="habit_name" value="{{ habit }}">
+                            <input type="hidden" name="date" value="{{ date_str }}">
+                            <button type="submit" name="status" value="done" class="status-button {% if habit_tracking.get(habit, {}).get(date_str, False) %}done{% endif %}">
+                                &#10004;
+                            </button>
+                            <button type="submit" name="status" value="not_done" class="status-button {% if not habit_tracking.get(habit, {}).get(date_str, False) %}not-done{% endif %}">
+                                &#10008;
+                            </button>
+                        </form>
+                    {% else %}
+                        <span class="future-day">&#10004;</span>
+                        <span class="future-day">&#10008;</span>
+                    {% endif %}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
