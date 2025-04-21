@@ -14,4 +14,7 @@ include todays date on the page,
 do not allow the user to click the cells for future days of the month.  
 
 Issues faced here:
-1) when adding a 2nd habit, the 2nd habit would appear in cell 1 under habit 1 so that we could not see any data(tick/cross icons) in habit 2 column. 
+I1) when adding a 2nd habit, the 2nd habit would appear in cell 1 under habit 1 so that we could not see any data(tick/cross icons) in habit 2 column. 
+F1) The fix was commenting out the .habit-cell in the css 
+
+3) I want to remove a habit and replace with another one. 

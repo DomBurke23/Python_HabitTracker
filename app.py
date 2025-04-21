@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import datetime 
 
 app = Flask(__name__)
 
-# In-memory storage for habits (replace with a database for persistent storage)
+# In-memory storage for habits and their completion status
+# (replace with a database for persistent storage)
 # Structure: {'habit_name': {'2025-04-18': True, '2025-04-19': False, ...}}
 habit_tracking = {}
 habits = []
@@ -27,6 +28,18 @@ def index():
     return render_template('index.html', habits=habits)
 #endregion 
 
+#region Remove Habit 
+@app.route('/remove_habit', methods=['POST'])
+def removeHabit():
+    if request.method == 'POST':
+            habit_to_remove = request.form['remove_habit']
+            if habit_to_remove in habits:
+                habits.remove(habit_to_remove)
+                if habit_to_remove in habit_tracking:
+                    del habit_tracking[habit_to_remove]  # Remove tracking data
+    return redirect(url_for('index'))
+#endregion 
+
 #region calendar table 
 @app.route('/calendar', methods=['GET', 'POST'])
 def calendar():
@@ -45,9 +58,6 @@ def calendar():
         if habit_name in habit_tracking:
             habit_tracking[habit_name][date_str] = status
 
-    print('habits:', habits)
-    print('habits tracking:', habit_tracking)
-    
     return render_template('calendar.html',
                            habits=habits,
                            month_name=month_name,
