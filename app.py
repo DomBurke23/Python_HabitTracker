@@ -1,5 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
+from Database.userRepository import UserRepository 
+
 import datetime 
+import sqlite3
+import os  # Import the os module for path manipulation
 
 app = Flask(__name__)
 
@@ -8,6 +12,15 @@ app = Flask(__name__)
 # Structure: {'habit_name': {'2025-04-18': True, '2025-04-19': False, ...}}
 habit_tracking = {}
 habits = []
+
+#region SQL Database variables 
+DATABASE_FOLDER = 'Database'
+DATABASE_FILE = 'pythonHabitsUsers.db'
+DATABASE_PATH = os.path.join(DATABASE_FOLDER, DATABASE_FILE)
+SCHEMA_FILE = 'schema.sql'
+SCHEMA_PATH = os.path.join(DATABASE_FOLDER, SCHEMA_FILE)
+DEBUG_MODE = True
+#endregion 
 
 #region Add Habit 
 @app.route('/', methods=['GET', 'POST'])
@@ -64,6 +77,55 @@ def calendar():
                            days_in_month=days_in_month,
                            habit_tracking=habit_tracking,
                            today=today)
+#endregion 
+
+#region Login Sql Database
+# on mac test in terminal sqlite3 --version 
+def get_db():
+    # Return rows as dictionaries, using .Row over .fetchall() allows you to index per column as well as row 
+    conn = sqlite3.connect(DATABASE_PATH)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def close_db(conn):
+    if conn:
+        conn.close()
+
+def init_db():
+    conn = get_db()
+    cursor = conn.cursor()
+    try:
+        with open(SCHEMA_PATH, 'r') as f:
+            cursor.executescript(f.read())
+        conn.commit()
+        print(f"Database initialized from {SCHEMA_PATH}")
+    except sqlite3.OperationalError as e:
+        print(f"Error initializing database: {e}")
+    finally:
+        close_db(conn)
+
+# Initialize the database when the application starts (you might do this once separately)
+with app.app_context():
+    init_db()
+
+# Instantiate the UserRepository
+user_repository = UserRepository(DATABASE_PATH)
+
+@app.route('/login')
+def show_login():
+    users = user_repository.fetch_users() if DEBUG_MODE else None
+    return render_template('login.html', users=users)
+
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    user = user_repository.fetch_user_by_username(username)
+    # In a real application, you'd hash passwords!
+    if user and user['password'] == password:
+        return redirect(url_for('index'))
+    else:
+        return jsonify({'error': 'Invalid username or password'}), 401
 #endregion 
 
 if __name__ == '__main__':

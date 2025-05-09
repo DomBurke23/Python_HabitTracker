@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+
+    <h2>Existing Users:</h2>
+    <ul>
+        {% for user in users %}
+            <li>ID: {{ user.id }}, Username: {{ user.username }}</li>
+        {% endfor %}
+    </ul>
+    <hr>
+
+    <form id="loginForm">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">Login</button>
+        <div id="message"></div>
+    </form>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            fetch('/login', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Successful login, the backend will redirect
+                    window.location.href = '/'; // Manually redirect on the frontend as a fallback
+                } else {
+                    return response.json();
+                }
+            })
+            .then(data => {
+                if (data && data.error) {
+                    const messageDiv = document.getElementById('message');
+                    messageDiv.textContent = data.error;
+                    messageDiv.style.color = 'red';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('message').textContent = 'An error occurred.';
+                document.getElementById('message').style.color = 'red';
+            });
+        });
+    </script>
+</body>
+</html>
