@@ -8,13 +8,21 @@ Requirements:
 in this python file i want a page which asks the user to input daily habits.
 then show them habits on the page. 
 
+----------
+
 2) add a page called calendar, which lists the habits against the days of the month , 
 so we can tick green or cross with a red x if not done , 
 include todays date on the page, 
 do not allow the user to click the cells for future days of the month.  
 
-Issues faced here:
-I1) when adding a 2nd habit, the 2nd habit would appear in cell 1 under habit 1 so that we could not see any data(tick/cross icons) in habit 2 column. 
-F1) The fix was commenting out the .habit-cell in the css 
+----------
 
-3) I want to remove a habit and replace with another one. 
+Issues faced with requirement 2:
+
+I) When adding a 2nd habit, the 2nd habit would appear in cell 1 under habit 1 so that we could not see any data(tick/cross icons) in habit 2 column. The fix was commenting out the .habit-cell in the css 
+
+----------
+
+3) Add a Login page using an sql database schema. If successful, redirect to the homepage, if unsuccessful, show error message. 
+
+----------
