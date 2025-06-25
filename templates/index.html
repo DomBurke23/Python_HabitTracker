@@ -15,17 +15,19 @@
 
     {% if habits %}
         <h2>Your Current Habits</h2>
-        <ul>
-            {% for habit in habits %}
-                <li>
-                    {{ habit }}
-                    <form method="POST" action="/remove_habit" style="display: inline;">
-                        <input type="hidden" name="remove_habit" value="{{ habit }}">
-                        <input type="submit" value="Remove">
-                    </form>
-                </li>
-            {% endfor %}
-        </ul>
+        <div class="habit-list">
+            <ul>
+                {% for habit in habits %}
+                    <li>
+                        {{ habit }}
+                        <form method="POST" action="/remove_habit" style="display: inline;">
+                            <input type="hidden" name="remove_habit" value="{{ habit }}">
+                            <input type="submit" value="Remove">
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     {% else %}
         <p>No habits added yet.</p>
     {% endif %}

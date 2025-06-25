@@ -1,49 +1,392 @@
 body {
-    font-family: sans-serif;
-    margin: 20px;
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif; /* Modern font stack */
+    background-color: #eef2f7; /* Light background for a clean feel */
+    margin: 0;
+    padding: 0; /* Remove body padding to allow navbar to go full width */
+    color: #333; /* Darker text for readability */
+    line-height: 1.6;
 }
-nav {
-    background-color: #f0f0f0;
-    padding: 10px;
+
+.container {
+    max-width: 900px; /* Slightly wider container */
+    margin: 30px auto; /* More vertical margin */
+    background-color: #ffffff;
+    padding: 40px; /* Increased padding */
+    border-radius: 12px; /* Softer rounded corners */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* More prominent, softer shadow */
+}
+
+/* Headings */
+h1, h2, h3 {
+    color: #2c3e50; /* Darker, professional heading color */
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 600; /* Slightly bolder headings */
+}
+
+h1 {
+    font-size: 2.8em; /* Larger main title */
+    letter-spacing: -0.02em; /* Tighter letter spacing for larger titles */
+}
+
+h2 {
+    font-size: 2em;
+    border-bottom: 1px solid #eee; /* Subtle separator */
+    padding-bottom: 10px;
+    margin-top: 40px;
+}
+
+/* Navigation/Header */
+.navbar {
+    background-color: #4a69bd; /* Primary brand color for navbar */
+    padding: 15px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Ensure it spans full width */
+    position: sticky; /* Keeps it at the top when scrolling */
+    top: 0; /* Sticks to the very top */
+    z-index: 1000; /* Ensures it's above other content */
+}
+
+.navbar .container { /* If you wrap nav links in a .container inside navbar */
+    margin: 0 auto; /* Center the content within the nav */
+    max-width: 900px; /* Match main container width for alignment */
+    padding: 0 20px; /* Add horizontal padding if container is too narrow */
+    background-color: transparent; /* Ensure container inside navbar doesn't have its own background */
+    box-shadow: none; /* No shadow on inner container */
+}
+
+.navbar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Center the navigation links */
+    align-items: center;
+}
+
+.navbar li {
+    margin: 0 25px;
+}
+
+.navbar a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.1em;
+    transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+    color: #a4b0be; /* Lighter color on hover */
+}
+
+/* Forms */
+form {
+    background-color: #fcfcfc;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    margin-top: 25px;
+}
+/* IMPORTANT: Override the general form styling for the specific remove habit form */
+form[action="/remove_habit"] {
+    background-color: transparent; /* No background for this specific form */
+    padding: 0; /* No padding */
+    border: none; /* No border */
+    margin: 0; /* No margin */
+    display: inline-block; /* Keep it inline with the habit text */
+}
+
+
+.form-group {
     margin-bottom: 20px;
 }
-nav a {
-    margin-right: 15px;
-    text-decoration: none;
-    color: #3a1696;
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
 }
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="date"],
+select,
+textarea {
+    width: calc(100% - 22px); /* Account for padding and border */
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #4a69bd; /* Highlight on focus */
+    box-shadow: 0 0 0 3px rgba(74, 105, 189, 0.2); /* Soft glow */
+    outline: none;
+}
+
+/* Buttons */
+button, .btn {
+    background-color: #4a69bd; /* Primary button color */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block; /* For better spacing if multiple buttons */
+    margin-right: 10px; /* Space between buttons */
+}
+
+button:hover, .btn:hover {
+    background-color: #3b53a3; /* Darker on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.btn-secondary {
+    background-color: #6c757d; /* A neutral secondary button */
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Red for destructive actions */
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Styling for the specific remove habit submit button */
+input[type="submit"][value="Remove"] {
+    background-color: #dc3545; /* Red for remove button */
+    color: white;
+    padding: 8px 15px; /* Smaller padding for a compact button */
+    border: none;
+    border-radius: 5px; /* Slightly less rounded than main buttons */
+    cursor: pointer;
+    font-size: 0.9em; /* Smaller font size */
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    margin-left: 15px; /* Space between habit name and button */
+    box-shadow: none; /* Ensure no default input box shadow */
+}
+
+input[type="submit"][value="Remove"]:hover {
+    background-color: #c82333;
+}
+
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden; /* Ensures rounded corners apply to content */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background-color: #f8f9fa; /* Lighter header background */
+    color: #555;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+tr:hover {
+    background-color: #f5f8fc; /* Subtle row highlight on hover */
+}
+
+/* Habit List Styling (Fixing Overlap) */
+.habit-list {
+    /* The <ul> element */
+    list-style: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding from ul */
+    margin: 0; /* Remove default margin from ul */
+
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack items vertically */
+    gap: 10px; /* Space between habit items */
+    margin-top: 25px;
+    padding: 20px; /* Add some padding inside the list container */
+    background-color: #fcfcfc; /* Light background for the list area */
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.habit-list li {
+    /* Each <li> element */
+    display: flex; /* Make each list item a flex container */
+    justify-content: space-between; /* Push habit name to left, button to right */
+    align-items: center; /* Vertically align items */
+    padding: 15px 20px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.habit-list li:hover {
+    transform: translateY(-3px); /* Lift effect on hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07); /* More pronounced shadow on hover */
+}
+
+
+/* Messages (Flash messages) */
+.flash-message {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.flash-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.flash-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Footer (Example) */
+footer {
+    text-align: center;
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    color: #777;
+    font-size: 0.9em;
+}
+
+/* Calendar Specific Styles */
 .calendar-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    background-color: #ffffff; /* Added for background */
+    border-radius: 8px; /* Added for rounded corners */
+    overflow: hidden; /* Added to clip content within rounded corners */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Added for a subtle shadow */
 }
 .calendar-table th, .calendar-table td {
-    border: 1px solid #ccc;
-    padding: 8px;
+    border: 1px solid #e0e0e0; /* Softer border color */
+    padding: 10px; /* Slightly more padding */
     text-align: center;
 }
 .calendar-table th {
-    background-color: #f0f0f0;
+    background-color: #f8f9fa; /* Lighter header background */
+    color: #555; /* Darker text for header */
+    font-weight: 600; /* Bolder header text */
 }
-/* .habit-cell {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-} */
+.calendar-table td {
+    vertical-align: top; /* Align content to the top of the cell */
+}
+.calendar-table tr:hover td {
+    background-color: #f5f8fc; /* Subtle row highlight on hover */
+}
+
+
+/* Status Buttons (Tick/Cross) - IMPORTANT FIXES HERE */
 .status-button {
-    background: none;
-    border: none;
+    background: none; /* Crucial: Remove background color */
+    border: none;     /* Crucial: Remove border */
     cursor: pointer;
-    font-size: 1.2em;
+    font-size: 1.6em; /* Slightly larger for better visibility */
     padding: 5px;
+    transition: transform 0.2s ease; /* Smooth transition for hover */
+    margin: 0 2px; /* Small spacing between tick/cross */
+    line-height: 1; /* Helps align the symbols */
 }
+
+.status-button:hover {
+    transform: scale(1.1); /* Slight zoom on hover */
+}
+
+/* These specific color rules are now directly applied to the status-button with their classes */
 .done {
     color: green;
 }
+
 .not-done {
     color: red;
 }
+
+.status-button:disabled { /* Style for future or disabled buttons */
+    color: #999;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+
+/* Future Day - Applied to a td directly, or button if it's disabled */
 .future-day {
     color: #999;
     cursor: not-allowed;
+    background-color: #f7f7f7; /* Slightly different background for future days */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        margin: 20px auto;
+    }
+
+    .navbar ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar li {
+        margin: 10px 0;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    /* Adjust button width for smaller screens, but keep inline for habit remove */
+    button, .btn {
+        width: 100%;
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+    input[type="submit"][value="Remove"] {
+        width: auto; /* Override 100% for this specific button */
+        margin-left: 10px; /* Adjust margin */
+    }
+
+
+    table, .habit-list li { /* Apply font size to list items as well */
+        font-size: 0.9em;
+    }
 }
