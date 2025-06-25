@@ -128,5 +128,17 @@ def login():
         return jsonify({'error': 'Invalid username or password'}), 401
 #endregion 
 
+#region Register 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        # ... logic to save user to database ...
+        flash('Registration successful! Please log in.')
+        return redirect(url_for('login'))
+    return render_template('register.html')
+#endregion
+
 if __name__ == '__main__':
     app.run(debug=True)
